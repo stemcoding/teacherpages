@@ -1,0 +1,259 @@
+<HTML>
+
+<head>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+    <script>
+    var clipboard = new Clipboard('.btn');
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    </script>
+
+<H1>Part 3: Bellicose birds!</H1>
+
+<p>If you have finished tinkering with the <a href="../lunardescent/lunardescent.html">Lunar descent lab</a> you can continue with this lab where we will configure the game to shoot a bird-shaped projectile.  We call this game <a href="http://dictionary.reference.com/browse/bellicose?s=t">Bellicose</a> Birds.
+
+<p>From a physics perspective, bellicose birds is essentially the same as lunar descent except that there is no rocket thrust. The kinematic equations look like this:
+
+$$ x(t) = x_0 + v_{x0}t    $$
+
+$$ y(t) = y_0 + v_{y0}t + \frac{1}{2} g t^2  $$
+
+<p>where $g = -9.8$.
+
+<p><H3>Step 0. Open up Lunar Descent in an editor</H3>
+
+<p><a href="https://editor.p5js.org/ChrisOrban/sketches/t5_TvTMIv" target="_blank">Click on this link to open the Lunar Descent code in a p5.js editor</a>
+
+<p>Press play there to run the code. It should look the same as it did with the <a href="../lunardescent/lunardescent.html">at the end of the lunar descent exercise</a>
+
+<p><H4><mark>Very Important: Sign in to your account! Then click "Duplicate" so you can have your own version of the code!!!</mark></H4>
+
+<p>In the top left corner, press <img src="https://www.asc.ohio-state.edu/orban.14/physics_coding/play_button.png"> and you'll see something like this:
+
+  <center>
+<p><img height=700 width=700  src="bellicosebirds_initial.png">
+  </center>
+
+
+<p>If the program can detect that something is wrong with your code it will show a red <img width=15 height=15 src="https://www.asc.ohio-state.edu/orban.14/stemcoding/red_x.png"> next to that objective.
+
+<p>If the program can detect that you have completed the objective it will show a green check mark <img width=15 height=15 src="https://www.asc.ohio-state.edu/orban.14/stemcoding/check_mark.png"> next to that objective.
+
+<p>But the program is not very smart and if it can't tell whether you have completed the objective it will indicate a question mark like this <img width=15 height=15 src="https://www.asc.ohio-state.edu/orban.14/stemcoding/question_mark.png"> next to that objective.
+
+<p>By the end of this activity your goal is to have green check marks next to all the objectives like this:
+
+<center>
+<p><img width=585  height=173 src="bellicosebirds_final.png">
+</center>
+
+<p>The steps below will help you achieve all these objectives!
+
+<p><H3>Step 1. Change the starting point</h3> 
+
+<p>After you <b><mark>click Duplicate</mark></b>, instead of starting the ship's position in the middle of the screen you'll want to configure it to start at the bottom left. Edit the code to change the initial position from this:
+
+<pre>
+x = 375;
+y = 250;
+</pre>
+
+<p>to this:
+
+<pre>
+x = 100;
+y = 25;
+</pre>
+
+<p>The ship should now start close to the bottom of the screen. Check to see that this works.
+
+<p><H3>Step 2: Configure the game so that gravity is turned off until you press spacebar</H3>
+
+<p>The easiest way to do this is to set g = 0 near the beginning of the code where the variables are all initialized. Then set g = -9.8 inside of the if statement for the spacebar. 
+
+<p>Finally, in order to prevent the rocket from sticking to the ground, <b><mark>remove this statement</mark></b>:
+
+<pre>
+  if ( abs(y - 0.03*height)  < 0.1) {
+    deltaVx = 0;
+    deltaVy = 0;
+    vx = 0;
+    vy = 0;
+    theta = 3.141/2;
+  }
+</pre>
+
+Once you do this <a href="bellicosebirds_v1/bellicosebirds.html">the game should behave like this</a>.
+
+<p><h3>Step 3. Give the rocket an initial velocity</h3>
+
+<p>Add a variable for the initial velocity near the beginning of the code 
+<pre>
+vinit = 65;
+</pre>
+
+<p>Then add two lines after g = 9.8 to set the initial velocity:
+
+<pre>
+ 
+   if (keyIsPressed && key == ' ') { // spacebar
+      g = -9.8;
+      vx = <mark>?????</mark>;
+      vy = <mark>?????</mark>;
+    }
+</pre>
+
+<p>It is up to you to figure out what goes in the question marks (think: trigonometry). When finished <a href="bellicosebirds_v2/bellicosebirds.html">the game should behave like this</a>
+
+<p>Note: For a more authentic bellicose birds experience you can turn off the thrusters by setting Fthrust = 0.0; at the top of the page.
+
+
+<p><H3>Step 4: Show the expected trajectory</H3>
+
+<p>You should be able to calculate the trajectory of the rocket from the kinematics equations we used towards the beginning of the course. In this step you will calculate this trajectory and draw it on the screen using drawPoint(xdraw,ydraw);   You may recognize this as the same function we used to do the projectile in the planetoids lab.
+
+<p>Just after drawLine(0,0,width,0); add these variables which are the initial x and y position of the rocket:
+
+<pre>  
+x0 = 100;
+y0 = 25;
+</pre>
+
+<p>Immediately after this write:
+
+<pre>
+  Npoints=1000;
+  for(i=1;i<=Npoints;i+=1)
+  {
+  t = (i-1)*dt;
+  xdraw = x0 + <mark>?????</mark>;
+  ydraw = y0 + <mark>?????</mark>;
+  drawPoint(xdraw,ydraw);
+  }  
+</pre>
+
+<button class="btn" data-clipboard-text="x0 = 100;
+y0 = 25;
+
+  Npoints=1000;
+  for(i=1;i<=Npoints;i+=1)
+  {
+  t = (i-1)*dt;
+  xdraw = x0 + ?????;
+  ydraw = y0 + ?????;
+  drawPoint(xdraw,ydraw);
+  }">
+    Copy code to clipboard
+</button>
+
+
+<p>Fill in the ???? with the terms that give the right trajectory. The two equations at the beginning of this exercise should be a big help! The main problem is how to put this in the code and what to use for $v_{x0}$ and $v_{y0}$.
+
+<p><b>Advice #1:</b> Expressions like t^2 won't work  in this case (or in most other programming languages). Instead use t*t for $t^2$
+
+<p><b>Advice #2:</b> Don't use vx or vy  here because those variables will change after the object is launched.
+
+<p><b>Advice #3:</b> Remember that the initial speed is v0
+
+<p><b>Advice #4:</b> You may want to use some trig functions like cos(theta) and sin(theta). It's important that your trajectory is correct for different values of theta.
+
+<p>Once you have figured this out <a href="bellicosebirds_v3/bellicosebirds.html">the program should behave like this</a>
+
+<p><H3>Step 5. Check that 45 degrees gives the longest distance </H3>
+
+<p>Add these lines somewhere after display() but not inside any of the if statements:
+
+<pre>
+drawText(theta,width/2,height/2 + 40);
+drawText(x,width/2,height/2 + 20);
+</pre>
+
+<button class="btn" data-clipboard-text="drawText(theta,width/2,height/2 + 40);
+drawText(x,width/2,height/2 + 20);">
+    Copy code to clipboard
+</button>
+
+
+<p>The first line tells you the x value where the rocket landed. The second line gives the angle in radians.
+
+<p><b><mark>Modify the code to write the angle in degrees instead of radians!</mark></b> Then check to see that 45 degrees gives the farthest distance. (Helpful hint: change the line where the angle of the ship changes so that it doesn't rotate so much every time you press the arrow.)
+
+<p>When finished, <a href="bellicosebirds_v4/bellicosebirds.html">the game should behave like this</a>
+
+<p><H3>Final step</H3>
+
+<p>Chose one or both of these two options: (1) Replacing the ship with an bellicose bird, or (2) configure the game so that pressing the spacebar only works the first time.
+
+<p>Note that Option 1 is easier because there is a step-by-step guide.
+
+<p><H3>How to replace the ship with an bellicose bird</H3>
+
+<p>Make the lab more fun by replacing the rocket with an bellicose bird. The easiest way to do this is with a red ellipse. After display(); add this:
+
+<pre>
+drawEllipse(x,y,27,20,vx,vy,deltaVx/dt,deltaVy/dt);
+</pre>
+
+<button class="btn" data-clipboard-text="drawEllipse(x,y,27,20,vx,vy,deltaVx/dt,deltaVy/dt);">
+    Copy code to clipboard
+</button>
+
+
+<p>The problem is that the oval is drawn on top of the ship. We can fix this by making the size of the ship zero. Look at the beginning of functions.js and change this:
+
+<pre>
+//Size of the ship
+r = 12;
+</pre>
+
+to this:
+<pre>
+//Size of the ship
+r = 0;
+</pre>
+
+<p>Once you have made these changes, <a href="bellicosebirds_v5/bellicosebirds.html">the game should behave like this</a>. Make sure to just tap the spacebar as briefly as you can!
+
+<p><H3>Challenge: Step 6: Figure out a way so that pressing the spacebar only works the first time</H3>
+
+<p>You may notice that the rocket/bird only follows the trajectory if you tap the spacebar as briefly as you can. Configure the game so that pressing the spacebar only works the first time. 
+
+<p>Once you have made this change, <a href="bellicosebirds_v6/bellicosebirds.html">the game should behave like this</a>
+
+<p><h3><mark>How to get full credit on this programming lab!!!</mark></h3>
+
+<p><b>1. Make sure the bird flies through the air like a projectile would (Steps 1-3)</b>
+
+<p><b>2. Make sure that the drawn trajectory (dotted line) follows the path of the bird (Step 4)</b>
+
+<p>It doesn't need to be perfect, but it should be pretty close (<a href="bellicosebirds_v3/bellicosebirds.html">like this</a>).
+
+<p><b>3. Make sure 45 degrees gives the longest distance (Step 5)</b>
+
+<p>Make sure to modify the code so that it writes the angle <b><i>in degrees</i></b> to the screen instead of radians
+
+<p>In the comments on the dropbox in carmen write down the exact angle (ex. 45.1274) and the distance the bird traveled before hitting the ground. Say something like "this was the furthest distance that the bird traveled for any angle".
+
+<p><b>4. Make sure to replace the ship with a picture of a bellicose bird (Final Step)</b>
+
+<p>There are step by step directions for how to do this. Just copy and paste into your code.
+
+<p><b>5. If you want extra credit figure out how to make the spacebar only work the first time as discussed in step 6</b>
+
+</body>
+</html>
